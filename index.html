@@ -271,19 +271,19 @@
 					return this; //	allow multiple calls of the system in chain.
 				};
 
-			//	We have the gender, body, hair, shoes, glasses, upperbody and lowerbody components.
+			//	We have the body, gender, hair, shoes, glasses, upperbody, lowerbody components.
 
-			//	An outfit entity created in outfit droplists change event.
-			//	Outfit entity defined from gender, body, hair, shoes, glasses, upperbody 
-			//	and lowerbody components. Gender and body component required.
+			//	An outfit entity created in each droplists change event.
+			//	Outfit entity defined from body, gender, hair, shoes, glasses, 
+			//	upperbody and lowerbody components. All components required.
+			//	Now we need a change event handler that creates the Outfit Entity.
 
-			//	Now we need the change event handler that creates the Outfit Entity.
-
+			//	Outfit System.
 				outfitSystem = new OutfitManagementSystem(); 
 				debugMode && console.log( outfitSystem );
 
-			//	A system must have an main "update" function. We define the update 
-			//	method when we create each system (but not in system constructor)  
+			//	A system must have an main "update" method. We define the update 
+			//	function when we create each system (but not in system constructor)  
 			//	to keep constructors as more abstract as possible.
 
 				outfitSystem.update = function update(){
@@ -345,8 +345,8 @@
 				return entity;
 			}
 
-		//	Here outfitSystem execute each entity immidiatlly.
-
+		//	The change event handler that creates the Outfit Entity.
+		//	Here outfit system executes each entity immidiatlly.
 			function outfitDroplistEventHandler(){
 				var entity = new outfitEntity();
 				outfitSystem.push( entity ).update();
@@ -373,8 +373,6 @@
 				select.appendChild(createOption("Male"));
 				select.appendChild(createOption("Female"));
 
-
-			//	select.addEventListener("change", outfitDroplistEventHandler );
 				select.addEventListener("change", function(){
 
 				//	Remove options.
@@ -391,9 +389,9 @@
 							(function(){
 							//	Hair droplist.
 								var select = document.getElementById("hair-component"); if ( !select ) return;
-								var hairs = "Curly,Fauxhawk,Fedora,Long,Medium,Mid_ShortBlack,Mohawk,Mohawk2,Ponytail,Rocker,"
-								+  "Shoulder,Skater,Spiky,Super_Spike,TopHat,Tuque,Cap,Cowboy,Fireman,King,Pirate,Sailor,Santa,Ski";
-								hairs.split(",").forEach(function(name){
+								var names = "Curly,Fauxhawk,Fedora,Long,Medium,Mid Short Black,Mohawk,Mohawk2,Ponytail,Rocker,"
+								+  "Shoulder,Skater,Spiky,Super Spike,Top Hat,Tuque,Cap,Cowboy,Fireman,King,Pirate,Sailor,Santa,Ski";
+								names.split(",").forEach(function(name){
 									select.appendChild(createOption( name ));
 								}); select.value = ""; // important!
 							})();
@@ -415,21 +413,18 @@
 							(function(){
 							//	Glasses droplist.
 								var select = document.getElementById("glasses-component"); if ( !select ) return;
-								select.appendChild(createOption("Mask"));
-								select.appendChild(createOption("Glasses 01"));
-								select.appendChild(createOption("Glasses 02"));
-								select.appendChild(createOption("Glasses 03"));
-								select.appendChild(createOption("Glasses 04"));
-								select.appendChild(createOption("Glasses 05"));
-								select.appendChild(createOption("Monocle 01"));
-								select.value = ""; // important!
+								var names = "Mask,Glasses 01,Glasses 02,Glasses 03,Glasses 04,Glasses 05,Monocle 01";
+								names.split(",").forEach(function(name){
+									select.appendChild(createOption( name ));
+								}); select.value = ""; // important!
 							})();
 
 							(function(){
 							//	Upperbody droplist.
 								var select = document.getElementById("upperbody-component"); if ( !select ) return;
-								var clothes = "Dress Shirt Open,Dress Shirt Tie,Dress Shirt Tucked,Elvis Jacket,Hoodie,Long Sleeve TShirt,Polo,Suit,TShirt";
-								clothes.split(",").forEach(function(name){
+								var names = "Dress Shirt Open,Dress Shirt Tie,Dress Shirt Tucked,Elvis Jacket,Hoodie,"
+								+ "Long Sleeve TShirt,Polo,Suit,TShirt";
+								names.split(",").forEach(function(name){
 									select.appendChild(createOption( name ));
 								}); select.value = ""; // important!
 							})();
@@ -437,8 +432,8 @@
 							(function(){
 							//	Lowerbody droplist.
 								var select = document.getElementById("lowerbody-component"); if ( !select ) return;
-								var trousers = "Baggy Jeans,Dress Pants,Jeans,Shorts";
-								trousers.split(",").forEach(function(name){
+								var names = "Baggy Jeans,Dress Pants,Jeans,Shorts";
+								names.split(",").forEach(function(name){
 									select.appendChild(createOption( name ));
 								}); select.value = ""; // important!
 							})();
@@ -491,8 +486,7 @@
 
 							(function(){
 							//	Shoes droplist.
-								var select = document.getElementById("shoes-component"); 
-								if ( !select ) return;
+								var select = document.getElementById("shoes-component"); if ( !select ) return;
 								for ( var i = 1; i < 22; i++ ) {
 									(function(i){
 										var name = "Shoes ";
@@ -506,47 +500,30 @@
 
 							(function(){
 							//	Glasses droplist.
-								var select = document.getElementById("glasses-component"); 
-								if ( !select ) return;
-								select.appendChild(createOption("Mask"));
-								select.appendChild(createOption("Glasses 01"));
-								select.appendChild(createOption("Glasses 02"));
-								select.appendChild(createOption("Glasses 03"));
-								select.appendChild(createOption("Glasses 04"));
-								select.value = ""; // important!
+								var select = document.getElementById("glasses-component"); if ( !select ) return;
+								var names = "Mask,Glasses 01,Glasses 02,Glasses 03,Glasses 04";
+								names.split(",").forEach(function(name){
+									select.appendChild(createOption( name ));
+								}); select.value = ""; // important!
 							})();
 
 							(function(){
 							//	Upperbody droplist.
-								var select = document.getElementById("upperbody-component"); 
-								if ( !select ) return;
-								select.appendChild(createOption("Dress"));
-								select.appendChild(createOption("TShirt"));
-								select.appendChild(createOption("Blazer"));
-								select.appendChild(createOption("Hoodie"));
-								select.appendChild(createOption("Corset"));
-								select.appendChild(createOption("Tanktop"));
-								select.appendChild(createOption("CowlNeck"));
-								select.appendChild(createOption("Long Coat"));
-								select.appendChild(createOption("Elvis Jacket"));
-								select.value = ""; // important!
+								var select = document.getElementById("upperbody-component"); if ( !select ) return;
+								var names = "Dress,TShirt,Blazer,Hoodies,Corset,Tanktop,CowlNeck,Long Coat,Elvis Jacket";
+								names.split(",").forEach(function(name){
+									select.appendChild(createOption( name ));
+								}); select.value = ""; // important!
 							})();
 
 							(function(){
 							//	Lowerbody droplist.
-								var select = document.getElementById("lowerbody-component"); 
-								if ( !select ) return;
-								select.appendChild(createOption("Bootcut"));
-								select.appendChild(createOption("Baggy Jeans"));
-								select.appendChild(createOption("Flare Leg"));
-								select.appendChild(createOption("Flare Bottoms"));
-								select.appendChild(createOption("Frilly Skirt"));
-								select.appendChild(createOption("Mini Skirt"));
-								select.appendChild(createOption("Long Skirt"));
-								select.appendChild(createOption("Short Skirt"));
-								select.appendChild(createOption("Straightleg"));
-								select.appendChild(createOption("Gown"));
-								select.value = ""; // important!
+								var select = document.getElementById("lowerbody-component"); if ( !select ) return;
+								var names = "Bootcut,Baggy Jeans,Flare Leg,Flare Bottoms,Frilly Skirt,"
+								+ "Mini Skirt,Long Skirt,Short Skirt,Straightleg,Gown";
+								names.split(",").forEach(function(name){
+									select.appendChild(createOption( name ));
+								}); select.value = ""; // important!
 							})();
 
 						break;
